@@ -1,4 +1,4 @@
-<#import "../layou.ftlh" as main>
+<#import "../layout.ftlh" as main>
 <@main.layout>
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.bunny.net">

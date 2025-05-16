@@ -1,4 +1,4 @@
-<#import "../layou.ftlh" as main>
+<#import "../layout.ftlh" as main>
 <@main.layout ; spring>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 

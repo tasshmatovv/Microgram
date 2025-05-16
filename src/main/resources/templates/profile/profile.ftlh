@@ -1,4 +1,4 @@
-<#import "../layou.ftlh" as main>
+<#import "../layout.ftlh" as main>
 <@main.layout ; spring>
     <head>
         <meta charset="UTF-8">

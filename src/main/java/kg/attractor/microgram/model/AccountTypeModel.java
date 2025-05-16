@@ -20,6 +20,4 @@ public class AccountTypeModel {
     @Column(name = "name", nullable = false, length = 10)
     private String name;
 
-    @OneToOne(mappedBy = "accountType")
-    private UserModel user;
 }

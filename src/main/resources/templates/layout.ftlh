@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Microgram</title>
-        
+        <link rel="shortcut icon" href="data:," type="image/x-icon">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
         <style>
@@ -51,6 +51,7 @@
             <#assign user = SPRING_SECURITY_CONTEXT.authentication.principal>
             <#assign roles = SPRING_SECURITY_CONTEXT.authentication.authorities?map(it -> it.authority)>
             <a href="/profile"><i class="bi bi-person-circle"></i> Профиль</a>
+            <a href="/post/create"><i class="bi bi-plus-square"></i> Создать</a>
             <a href="/logout" class="btn btn-outline-light">Выйти</a>
         <#else>
             <a href="/auth/login" class="btn btn-outline-light">Войти</a>

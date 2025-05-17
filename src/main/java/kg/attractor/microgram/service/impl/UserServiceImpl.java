@@ -56,6 +56,13 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден с email: " + email));
     }
 
+    @Override
+    public UserDto getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден с id: " + userId));
+    }
+
     private UserDto convertToDto(UserModel user) {
         return modelMapper.map(user, UserDto.class);
     }

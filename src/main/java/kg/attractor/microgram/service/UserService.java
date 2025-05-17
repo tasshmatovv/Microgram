@@ -6,4 +6,6 @@ public interface UserService {
     void registerUser(UserDto userDto);
 
     UserDto getUserByEmail(String email);
+
+    UserDto getUserById(Integer userId);
 }

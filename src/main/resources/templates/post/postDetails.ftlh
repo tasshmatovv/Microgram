@@ -9,15 +9,15 @@
                 </div>
 
                 <div class="mb-3">
-                    <img src="/profile/image/${post.imageUrlString}" alt="Post Image" class="post-image">
+                    <img src="/profile/image/${post.imageUrlString}" alt="Post Image" class="img-fluid rounded">
                 </div>
 
                 <div class="d-flex mb-3">
                     <button class="btn btn-outline-light me-2">
-                        <i class="bi bi-heart"></i> 0
+                        <i class="bi bi-heart"></i> ${post.likes}
                     </button>
                     <button class="btn btn-outline-light me-2">
-                        <i class="bi bi-chat"></i>0
+                        <i class="bi bi-chat"></i> ${post.comments}
                     </button>
                 </div>
 
@@ -25,14 +25,44 @@
                     <p>${post.description}</p>
                 </div>
 
-                <div class="text-muted small">
+                <div class="text-muted small mb-3">
                     <i class="bi bi-clock"></i> ${post.createdAt}
                 </div>
 
-                <div class="mt-4">
-                    <h6>Комментарии</h6>
-                    <div class="border-top pt-3">
-                        <p>Здесь будут комментарии...</p>
+                <form action="/post/${post.id}/comment" method="post" class="mt-3">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+
+                    <div class="mb-3">
+                        <label for="newComment.text">Комментарий</label>
+                        <@spring.formInput "newComment.text" 'class="form-control bg-dark text-white border-secondary" id="newComment.text" placeholder="Добавить комментарий..."' />
+                        <div class="text-danger small">
+                            <@spring.showErrors "newComment.text" />
+                        </div>
+                    </div>
+
+                </form>
+
+                <div class="mt-4 border-top pt-3">
+                    <h6>Комментарии (${comments?size})</h6>
+
+                    <div class="comments-list mb-4">
+                        <#if comments?size == 0>
+                            <p class="text-muted">Пока нет комментариев</p>
+                        <#else>
+                            <#list comments as comment>
+                                <div class="comment-item mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/profile/avatars/${comment.user.avatar}"
+                                             class="rounded-circle me-2"
+                                             width="32" height="32"
+                                             alt="User Avatar">
+                                        <strong>${comment.user.nickName}</strong>
+                                    </div>
+                                    <p class="mt-1 mb-0">${comment.text}</p>
+                                    <small class="text-muted">${comment.createdAt}</small>
+                                </div>
+                            </#list>
+                        </#if>
                     </div>
                 </div>
             </div>
@@ -50,6 +80,15 @@
         }
         .btn-outline-light:hover {
             background-color: #333;
+        }
+        .comment-item {
+            padding: 10px;
+            background-color: #111;
+            border-radius: 8px;
+        }
+        .comments-list {
+            max-height: 400px;
+            overflow-y: auto;
         }
     </style>
 </@main.layout>

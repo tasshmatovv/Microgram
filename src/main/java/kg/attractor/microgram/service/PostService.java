@@ -17,4 +17,6 @@ public interface PostService {
     ResponseEntity<InputStreamResource> getPostImage(String postImage);
 
     PostDto getPostById(Integer postId);
+
+    void updateCommentCount(Integer postId);
 }

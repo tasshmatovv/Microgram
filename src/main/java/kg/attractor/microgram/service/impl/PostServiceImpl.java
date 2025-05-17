@@ -6,6 +6,7 @@ import kg.attractor.microgram.dto.UserDto;
 import kg.attractor.microgram.model.PostModel;
 import kg.attractor.microgram.model.UserModel;
 import kg.attractor.microgram.repository.PostRepository;
+import kg.attractor.microgram.service.CommentService;
 import kg.attractor.microgram.service.PostService;
 import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper = new ModelMapper();
     private final UserService userService;
     private final FileUtil fileUtil;
+    private final CommentService commentService;
 
     @Override
     public void createPost(PostDto postDto, Authentication authentication) {
@@ -78,8 +80,17 @@ public class PostServiceImpl implements PostService {
 
         PostDto postDto = modelMapper.map(postModel, PostDto.class);
         postDto.setUser(modelMapper.map(postModel.getUser(), UserDto.class));
+        postDto.setComments(commentService.getCommentCount(postId));
 
         return postDto;
+    }
+
+    @Override
+    public void updateCommentCount(Integer postId) {
+        PostModel post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setComments(commentService.getCommentCount(postId));
+        postRepository.save(post);
     }
 
     private UserModel convertToUserModel(UserDto userDto) {

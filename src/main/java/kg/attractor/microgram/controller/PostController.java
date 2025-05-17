@@ -1,16 +1,18 @@
 package kg.attractor.microgram.controller;
 
 import jakarta.validation.Valid;
+import kg.attractor.microgram.dto.CommentDto;
 import kg.attractor.microgram.dto.PostDto;
+import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.service.CommentService;
 import kg.attractor.microgram.service.PostService;
+import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/post")
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
+    private final UserService userService;
 
     @GetMapping("/create")
     public String getCreatePostPage(Model model) {
@@ -34,6 +38,35 @@ public class PostController {
     @GetMapping("/details/{id}")
     public String getPostDetailsPage(@PathVariable Integer id, Model model) {
         model.addAttribute("post", postService.getPostById(id));
+        model.addAttribute("comments", commentService.getCommentsByPostId(id));
+        model.addAttribute("newComment", new CommentDto());
         return "post/postDetails";
     }
+
+
+    @PostMapping("/{postId}/comment")
+    public String addComment(@PathVariable Integer postId,
+                             @ModelAttribute("newComment") @Valid CommentDto commentDto,
+                             BindingResult bindingResult,
+                             Authentication authentication,
+                             Model model) {
+
+        if (bindingResult.hasErrors()) {
+            PostDto post = postService.getPostById(postId);
+            model.addAttribute("post", post);
+            model.addAttribute("comments", commentService.getCommentsByPostId(postId));
+            return "post/postDetails";
+        }
+
+        commentDto.setPostId(postId);
+        UserDto currentUser = userService.getUserByEmail(authentication.getName());
+        commentDto.setUser(currentUser);
+
+        commentService.addComment(commentDto);
+        postService.updateCommentCount(postId);
+
+        return "redirect:/post/details/" + postId;
+    }
+
+
 }

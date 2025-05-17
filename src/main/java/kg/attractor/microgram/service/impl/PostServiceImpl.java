@@ -10,10 +10,13 @@ import kg.attractor.microgram.service.PostService;
 import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +45,31 @@ public class PostServiceImpl implements PostService {
         postRepository.save(postModel);
     }
 
+    @Override
+    public Integer getPostCount(Integer userId) {
+        return postRepository.countByUserId(userId);
+    }
 
+    @Override
+    public List<PostDto> getPostsByUserId(Integer userId) {
+        return postRepository.findAllByUserId(userId)
+                .stream()
+                .map(postModel -> PostDto.builder()
+                        .id(postModel.getId())
+                        .userId(postModel.getUser().getId())
+                        .imageUrlString(postModel.getImageUrl())
+                        .description(postModel.getDescription())
+                        .likes(postModel.getLikes())
+                        .comments(postModel.getComments())
+                        .createdAt(postModel.getCreatedAt().toString())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public ResponseEntity<InputStreamResource> getPostImage(String postImage) {
+        return fileUtil.getOutputFile(postImage, "postImages");
+    }
 
     private UserModel convertToUserModel(UserDto userDto) {
         return modelMapper.map(userDto, UserModel.class);

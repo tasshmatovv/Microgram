@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +34,6 @@ public class UserServiceImpl implements UserService {
         }
 
         String avatarFileName = "noProfilePhoto.jpg";
-        MultipartFile avatarFile = userDto.getAvatar();
-        if (avatarFile != null && !avatarFile.isEmpty()) {
-            avatarFileName = fileUtil.saveUploadFile(avatarFile, "avatars");
-        }
 
         UserModel user = UserModel.builder()
                 .nickName(userDto.getNickName())
@@ -48,7 +43,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .accountType(accountTypeService.getUserAccountType())
                 .enabled(true)
-                .avatar(avatarFileName)
+                .avatar(userDto.getAvatar())
                 .build();
 
         userRepository.save(user);

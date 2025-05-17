@@ -75,19 +75,52 @@
             .nav-link.active {
                 border-bottom: 1px solid #fff;
             }
+            .gallery {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3px;
+                margin-top: 30px;
+            }
+            .gallery img {
+                width: 100%;
+                height: 310px;
+                object-fit: cover;
+            }
+            .gallery-placeholder {
+                text-align: center;
+                margin-top: 60px;
+            }
+            .gallery-placeholder i {
+                font-size: 64px;
+                color: #555;
+            }
+            .gallery-placeholder p {
+                margin-top: 15px;
+                font-size: 18px;
+                color: #aaa;
+            }
+            .btn-custom {
+                background-color: #262626;
+                color: #fff;
+                border: 1px solid #333;
+                padding: 8px 18px;
+                border-radius: 8px;
+                font-size: 14px;
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="/profile/avatars/${user.avatar!''}" class="avatar" alt="Аватар" onerror="this.src='/static/images/noProfilePhoto.jpg'">
+            <img src="/profile/avatars/${user.avatar}" class="avatar" alt="Аватар">
             <div class="profile-info">
                 <div class="d-flex align-items-center gap-3">
                     <h2>${user.nickName!"Имя"} ${user.fullName!""}</h2>
                     <a href="/profile/redactProfile" class="btn btn-custom">Редактировать профиль</a>
                 </div>
                 <div class="profile-stats mt-3">
-                    <div><span>0</span> публикаций</div>
+                    <div><span>${postCount}</span> публикаций</div>
                     <div><span>4</span> подписчиков</div>
                     <div><span>5</span> подписок</div>
                 </div>
@@ -98,20 +131,22 @@
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">ПУБЛИКАЦИИ</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">СОХРАНЕННОЕ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">ОТМЕТКИ</a>
-            </li>
         </ul>
 
-        <div class="gallery-placeholder">
-            <i class="bi bi-camera"></i>
-            <p>Поделиться фото</p>
-            <p>Фото, которыми вы делитесь, будут показываться в вашем профиле.</p>
-            <a href="#" class="btn btn-custom">Поделитесь своим первым фото</a>
-        </div>
+        <#if posts?size == 0>
+            <div class="gallery-placeholder">
+                <i class="bi bi-camera"></i>
+                <p>Поделиться фото</p>
+                <p>Фото, которыми вы делитесь, будут показываться в вашем профиле.</p>
+                <a href="/post/create" class="btn btn-custom">Поделитесь своим первым фото</a>
+            </div>
+        <#else>
+            <div class="gallery">
+                <#list posts as post>
+                    <img src="/profile/image/${post.imageUrlString}" alt="Post Image" class="post-image">
+                </#list>
+            </div>
+        </#if>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

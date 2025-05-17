@@ -3,6 +3,8 @@ package kg.attractor.microgram.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,5 +33,8 @@ public class UserModel {
     @OneToOne
     @JoinColumn(name = "accountTypeId")
     private AccountTypeModel accountType;
+
+    @OneToMany(mappedBy = "user")
+    private List<PostModel> post;
 
 }

@@ -19,4 +19,5 @@ public class PostDto {
     private Integer likes;
     private Integer comments;
     private String createdAt;
+    private String imageUrlString;
 }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -34,7 +33,7 @@ public class UserDto {
     @NotBlank(message = "Имя обязателен")
     @Size(min = 2, max = 30, message = "Минимальное количество символов 2, максимальное 30")
     private String fullName;
-    private MultipartFile avatar;
+    private String avatar;
     private String bio;
     private Boolean enabled;
     private Integer accountTypeId;

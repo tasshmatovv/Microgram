@@ -1,9 +1,8 @@
 package kg.attractor.microgram.Util;
 
 import lombok.SneakyThrows;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-
+@Slf4j
 @Service
 public class FileUtil {
 
@@ -45,19 +43,17 @@ public class FileUtil {
     }
 
     @SneakyThrows
-    public ResponseEntity<?> getOutputFile(String filename, MediaType mediaType) {
+    public ResponseEntity<InputStreamResource> getOutputFile(String fileName, String subDir) {
         try {
-            byte[] image = Files.readAllBytes(Paths.get(UPLOAD_DIR + filename));
-            Resource resource = new ByteArrayResource(image);
+            Path path = Paths.get(UPLOAD_DIR + subDir + "/" + fileName);
+            InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+            MediaType mediaType = MediaType.parseMediaType(Files.probeContentType(path));
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=\"" + filename + "\"")
-                    .contentLength(resource.contentLength())
                     .contentType(mediaType)
-                    .body(resource);
-        } catch (NoSuchFileException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found");
+                    .body(new InputStreamResource(resource.getInputStream()));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error reading image");
+            log.error("No file found:", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

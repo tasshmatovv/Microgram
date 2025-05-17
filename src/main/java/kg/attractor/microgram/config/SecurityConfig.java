@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .permitAll())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/profile", "post/create").authenticated()
-                        .requestMatchers("/auth/**","/static/**").permitAll()
+                        .requestMatchers("/auth/**","/static/**", "post/details/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 )

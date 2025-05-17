@@ -15,4 +15,6 @@ public interface PostService {
     List<PostDto> getPostsByUserId(Integer userId);
 
     ResponseEntity<InputStreamResource> getPostImage(String postImage);
+
+    PostDto getPostById(Integer postId);
 }

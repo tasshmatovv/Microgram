@@ -20,4 +20,5 @@ public class PostDto {
     private Integer comments;
     private String createdAt;
     private String imageUrlString;
+    private UserDto user;
 }

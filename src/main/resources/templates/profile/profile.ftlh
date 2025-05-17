@@ -143,7 +143,7 @@
         <#else>
             <div class="gallery">
                 <#list posts as post>
-                    <img src="/profile/image/${post.imageUrlString}" alt="Post Image" class="post-image">
+                    <a href="post/details/${post.id}"> <img src="/profile/image/${post.imageUrlString}" alt="Post Image" class="post-image"></a>
                 </#list>
             </div>
         </#if>

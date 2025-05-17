@@ -71,6 +71,17 @@ public class PostServiceImpl implements PostService {
         return fileUtil.getOutputFile(postImage, "postImages");
     }
 
+    @Override
+    public PostDto getPostById(Integer postId) {
+        PostModel postModel = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        PostDto postDto = modelMapper.map(postModel, PostDto.class);
+        postDto.setUser(modelMapper.map(postModel.getUser(), UserDto.class));
+
+        return postDto;
+    }
+
     private UserModel convertToUserModel(UserDto userDto) {
         return modelMapper.map(userDto, UserModel.class);
     }

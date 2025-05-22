@@ -3,9 +3,15 @@ package kg.attractor.microgram.service;
 import kg.attractor.microgram.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface UserService {
 
     void registerUser(UserDto userDto, String avatar);
+
+    List<UserDto> getSuggestedUsersForSubscription(Integer userId);
+
+    List<Integer> getFollowedUserIds(Integer userId);
 
     UserDto getUserByEmail(String email);
 

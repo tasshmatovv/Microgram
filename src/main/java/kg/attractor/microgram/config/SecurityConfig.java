@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/profile", "post/create").authenticated()
                         .requestMatchers("/auth/**","/static/**", "post/details/**").permitAll()
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/", "/profile/avatars/**", "/profile/image/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

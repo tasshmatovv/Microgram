@@ -11,12 +11,15 @@ import kg.attractor.microgram.service.AccountTypeService;
 import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @__(@Lazy))
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -24,6 +27,13 @@ public class UserServiceImpl implements UserService {
     private final AccountTypeService accountTypeService;
     private final FileUtil fileUtil;
     private ModelMapper modelMapper = new ModelMapper();
+
+    private final SubscriptionsServiceImpl subscriptionService;
+
+    @Override
+    public List<Integer> getFollowedUserIds(Integer userId) {
+        return subscriptionService.getFollowedUserIds(userId);
+    }
 
     @Override
     public void registerUser(UserDto userDto, String avatar) {
@@ -53,7 +63,18 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
-    
+
+    @Override
+    public List<UserDto> getSuggestedUsersForSubscription(Integer userId) {
+        List<Integer> followedUserIds = getFollowedUserIds(userId);
+        List<UserModel> allUsers = userRepository.findAll();
+        return allUsers.stream()
+                .filter(user -> !user.getId().equals(userId) && !followedUserIds.contains(user.getId()))
+                .map(this::convertToDto)
+                .toList();
+    }
+
+
     @Override
     public UserDto getUserByEmail(String email) {
         return userRepository.findByEmail(email)

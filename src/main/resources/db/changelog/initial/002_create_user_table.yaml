@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002_create_users_table
+      author: Erjan
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nickName
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fullName
+                  type: VARCHAR
+              - column:
+                  name: avatarUrl
+                  type: VARCHAR
+              - column:
+                  name: bio
+                  type: TEXT
+              - column:
+                  name: enabled
+                  type: boolean
+              - column:
+                  name: accountTypeId
+                  type: INT
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: accountTypeId
+            constraintName: fk_users_accountType
+            referencedTableName: accountType
+            referencedColumnNames: id

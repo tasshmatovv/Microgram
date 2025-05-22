@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_create_account_type_table
+      author: Erjan
+      changes:
+        - createTable:
+            tableName: accountType
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR

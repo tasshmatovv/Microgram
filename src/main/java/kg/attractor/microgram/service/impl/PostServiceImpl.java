@@ -79,7 +79,13 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
         PostDto postDto = modelMapper.map(postModel, PostDto.class);
-        postDto.setUser(modelMapper.map(postModel.getUser(), UserDto.class));
+
+        if (postModel.getUser() != null) {
+            UserDto userDto = modelMapper.map(postModel.getUser(), UserDto.class);
+            userDto.setAvatarUrl(postModel.getUser().getAvatar());
+            postDto.setUser(userDto);
+        }
+
         postDto.setComments(commentService.getCommentCount(postId));
 
         return postDto;

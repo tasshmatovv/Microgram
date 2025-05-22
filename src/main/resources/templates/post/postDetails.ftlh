@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="/profile/avatars/${post.user.avatar}" class="rounded-circle me-3" width="40" height="40" alt="User Avatar">
+                    <img src="/profile/avatars/${post.user.avatarUrl}" class="rounded-circle me-3" width="40" height="40" alt="User Avatar">
                     <h5 class="mb-0">${post.user.nickName}</h5>
                 </div>
 

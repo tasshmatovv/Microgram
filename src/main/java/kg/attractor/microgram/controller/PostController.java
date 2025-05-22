@@ -12,7 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/post")
@@ -30,7 +32,21 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String createPost(@Valid PostDto postDto,Authentication authentication) {
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
+                             BindingResult bindingResult,
+                             Authentication authentication) {
+
+        MultipartFile imageFile = postDto.getImageUrl();
+        if (imageFile == null || imageFile.isEmpty()) {
+            if (!bindingResult.hasFieldErrors("imageUrl")) {
+                bindingResult.addError(new FieldError("post", "imageUrl", "Вы не можете опубликовать пустой пост"));
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "post/createPost";
+        }
+
         postService.createPost(postDto, authentication);
         return "redirect:/profile";
     }

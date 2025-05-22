@@ -85,6 +85,15 @@
         .login-link a:hover {
             text-decoration: underline;
         }
+        input[type="file"] {
+            background-color: #262626;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
     </style>
 
     <div class="registration-container">
@@ -128,7 +137,11 @@
                     <div class="error-block"><@spring.showErrors "<br>" "error-message" /></div>
                 </div>
 
-                <input type="file" name="avatar"/>
+                <div class="form-group mb-4">
+                    <label for="avatar">Аватарка</label>
+                    <input type="file" name="avatar" id="avatar" class="form-control form-control-file text-white bg-dark border-dark" />
+                </div>
+
 
                 <button type="submit" class="btn btn-primary w-100 py-2">Зарегистрироваться</button>
             </form>

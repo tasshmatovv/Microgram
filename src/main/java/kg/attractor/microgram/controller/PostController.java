@@ -52,10 +52,15 @@ public class PostController {
     }
 
     @GetMapping("/details/{id}")
-    public String getPostDetailsPage(@PathVariable Integer id, Model model) {
+    public String getPostDetailsPage(@PathVariable Integer id, Model model, Authentication authentication) {
+
+        UserDto currentUser = userService.getUserByEmail(authentication.getName());
+
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comments", commentService.getCommentsByPostId(id));
         model.addAttribute("newComment", new CommentDto());
+        model.addAttribute("currentUser", currentUser);
+
         return "post/postDetails";
     }
 
@@ -83,6 +88,26 @@ public class PostController {
 
         return "redirect:/post/details/" + postId;
     }
+
+
+    @PostMapping("/{postId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Integer postId,
+                                @PathVariable Integer commentId,
+                                Authentication authentication) {
+        UserDto currentUser = userService.getUserByEmail(authentication.getName());
+
+        try {
+            commentService.deleteCommentIfPostOwnedBy(commentId, postId, currentUser);
+        } catch (RuntimeException e) {
+            try {
+                commentService.deleteOwnComment(commentId, currentUser.getId());
+            } catch (RuntimeException ex) {
+                return "redirect:/post/details/" + postId;
+            }
+        }
+        return "redirect:/post/details/" + postId;
+    }
+
 
 
 }

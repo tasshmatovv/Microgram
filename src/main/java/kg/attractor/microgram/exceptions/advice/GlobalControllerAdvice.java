@@ -2,9 +2,7 @@ package kg.attractor.microgram.exceptions.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
-import kg.attractor.microgram.exceptions.NotFoundException;
-import kg.attractor.microgram.exceptions.UserAlreadyExistsException;
-import kg.attractor.microgram.exceptions.UserNotFoundException;
+import kg.attractor.microgram.exceptions.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -146,6 +144,24 @@ public class GlobalControllerAdvice {
     public String handleUserAlreadyExists(UserAlreadyExistsException e,
                                           HttpServletRequest request, Model model) {
         log.error("Пользователь уже существует: {}", e.getMessage());
+        prepareErrorModel(model, HttpStatus.BAD_REQUEST, request);
+        model.addAttribute("message", e.getMessage());
+        return "errors/error";
+    }
+
+    @ExceptionHandler(NickAlreadyExistsException.class)
+    public String nickAlreadyExistsException(NickAlreadyExistsException e,
+                                          HttpServletRequest request, Model model) {
+        log.error("Такой ник уже существует: {}", e.getMessage());
+        prepareErrorModel(model, HttpStatus.BAD_REQUEST, request);
+        model.addAttribute("message", e.getMessage());
+        return "errors/error";
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public String emailAlreadyExistsException(EmailAlreadyExistsException e,
+                                             HttpServletRequest request, Model model) {
+        log.error("Такая почта уже существует: {}", e.getMessage());
         prepareErrorModel(model, HttpStatus.BAD_REQUEST, request);
         model.addAttribute("message", e.getMessage());
         return "errors/error";

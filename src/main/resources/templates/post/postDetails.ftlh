@@ -20,10 +20,11 @@
                         <i class="bi bi-chat"></i> ${post.comments}
                     </button>
                 </div>
-
+               <#if (post.description!'')?trim != ''>
                 <div class="mb-3">
                     <p>${post.description}</p>
                 </div>
+               </#if>
 
                 <div class="text-muted small mb-3">
                     <i class="bi bi-clock"></i> ${post.createdAt}
@@ -36,7 +37,7 @@
                         <label for="newComment.text">Комментарий</label>
                         <@spring.formInput "newComment.text" 'class="form-control bg-dark text-white border-secondary" id="newComment.text" placeholder="Добавить комментарий..."' />
                         <div class="text-danger small">
-                            <@spring.showErrors "newComment.text" />
+                            <@spring.showErrors "<br>" "error-message" />
                         </div>
                     </div>
 
@@ -52,15 +53,25 @@
                             <#list comments as comment>
                                 <div class="comment-item mb-3">
                                     <div class="d-flex align-items-center">
-                                        <img src="/profile/avatars/${comment.user.avatar}"
+                                        <img src="${(comment.user.avatarUrl)!'/images/default-avatar.png'}"
                                              class="rounded-circle me-2"
                                              width="32" height="32"
                                              alt="User Avatar">
+
                                         <strong>${comment.user.nickName}</strong>
                                     </div>
                                     <p class="mt-1 mb-0">${comment.text}</p>
                                     <small class="text-muted">${comment.createdAt}</small>
                                 </div>
+
+                                <#if post.user.id == currentUser.id || comment.user.id == currentUser.id>
+                                    <form action="/post/${post.id}/comment/${comment.id}/delete" method="post" style="margin: 0;">
+                                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                        <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                    </form>
+                                </#if>
+
+
                             </#list>
                         </#if>
                     </div>

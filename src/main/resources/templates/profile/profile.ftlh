@@ -113,7 +113,7 @@
     <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="/profile/avatars/${user.avatar}" class="avatar" alt="Аватар">
+            <img src="/profile/avatars/${user.avatarUrl!}" class="avatar" alt="Аватар">
             <div class="profile-info">
                 <div class="d-flex align-items-center gap-3">
                     <h2>${user.nickName!"Имя"} ${user.fullName!""}</h2>

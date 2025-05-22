@@ -4,7 +4,6 @@ import kg.attractor.microgram.Util.FileUtil;
 import kg.attractor.microgram.dto.UserDto;
 import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
 import kg.attractor.microgram.exceptions.NickAlreadyExistsException;
-import kg.attractor.microgram.exceptions.UserAlreadyExistsException;
 import kg.attractor.microgram.exceptions.UserNotFoundException;
 import kg.attractor.microgram.model.UserModel;
 import kg.attractor.microgram.repository.UserRepository;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +66,31 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId)
                 .map(this::convertToDto)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден с id: " + userId));
+    }
+
+    @Override
+    public void updateUserAvatar(String email, MultipartFile avatar, String existingAvatar) {
+        UserModel user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        String avatarFileName;
+        if (avatar != null && !avatar.isEmpty()) {
+            avatarFileName = addAvatar(avatar);
+        } else {
+            avatarFileName = existingAvatar;
+        }
+
+        user.setAvatar(avatarFileName);
+        userRepository.save(user);
+    }
+
+    @Override
+    public String addAvatar(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("Avatar file is empty");
+        }
+        String fileName = fileUtil.saveUploadFile(file, "avatars");
+        return fileName;
     }
 
     private UserDto convertToDto(UserModel user) {

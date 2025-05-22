@@ -2,7 +2,8 @@ package kg.attractor.microgram.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.microgram.dto.UserDto;
-import kg.attractor.microgram.exceptions.UserAlreadyExistsException;
+import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
+import kg.attractor.microgram.exceptions.NickAlreadyExistsException;
 import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,12 +34,11 @@ public class AuthController {
         try {
             userService.registerUser(userDto, avatar.getOriginalFilename());
             return "redirect:/auth/login";
-        } catch (UserAlreadyExistsException e) {
-            if (e.getMessage().contains("Логина")) {
-                model.addAttribute("nickError", e.getMessage());
-            } else {
-                model.addAttribute("emailError", e.getMessage());
-            }
+        }catch (EmailAlreadyExistsException e) {
+            model.addAttribute("emailError", e.getMessage());
+            return "auth/register";
+        } catch (NickAlreadyExistsException e) {
+            model.addAttribute("nickError", e.getMessage());
             return "auth/register";
         }
     }

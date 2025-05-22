@@ -98,25 +98,24 @@
                     <label for="userRegisterDto.nickName">Никнейм</label>
                     <@spring.formInput "userRegisterDto.nickName" 'class="form-control" id="userRegisterDto.nickName" placeholder="Ваш никнейм"' />
                     <div class="error-block">
-                        <@spring.showErrors "userRegisterDto.nickName" />
+                        <@spring.showErrors "<br>" "error-message" />
                     </div>
                     <#if nickError??>
                         <div class="error text-danger">${nickError}</div>
                     </#if>
-
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="userRegisterDto.fullName">Имя и фамилия</label>
                     <@spring.formInput "userRegisterDto.fullName" 'class="form-control" id="userRegisterDto.fullName" placeholder="Ваше имя"' />
-                    <div class="error-block"><@spring.showErrors "userRegisterDto.fullName" /></div>
+                    <div class="error-block"><@spring.showErrors "<br>" "error-message" /></div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="userRegisterDto.email">Электронная почта</label>
                     <@spring.formInput "userRegisterDto.email" 'class="form-control" id="userRegisterDto.email"' />
                     <div class="error-block">
-                        <@spring.showErrors "userRegisterDto.email" />
+                        <@spring.showErrors "<br>" "error-message" />
                     </div>
                     <#if emailError??>
                         <div class="error text-danger">${emailError}</div>
@@ -126,11 +125,10 @@
                 <div class="form-group mb-4">
                     <label for="userRegisterDto.password">Пароль</label>
                     <@spring.formInput "userRegisterDto.password" 'class="form-control" id="userRegisterDto.password" type="password" placeholder="••••••••"' />
-                    <div class="error-block"><@spring.showErrors "userRegisterDto.password" /></div>
+                    <div class="error-block"><@spring.showErrors "<br>" "error-message" /></div>
                 </div>
 
                 <input type="file" name="avatar"/>
-
 
                 <button type="submit" class="btn btn-primary w-100 py-2">Зарегистрироваться</button>
             </form>

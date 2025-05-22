@@ -2,6 +2,8 @@ package kg.attractor.microgram.service.impl;
 
 import kg.attractor.microgram.Util.FileUtil;
 import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
+import kg.attractor.microgram.exceptions.NickAlreadyExistsException;
 import kg.attractor.microgram.exceptions.UserAlreadyExistsException;
 import kg.attractor.microgram.exceptions.UserNotFoundException;
 import kg.attractor.microgram.model.UserModel;
@@ -26,16 +28,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserDto userDto, String avatar) {
         if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new UserAlreadyExistsException("Пользователь с такой почтой уже существует");
+            throw new EmailAlreadyExistsException("Пользователь с такой почтой уже существует");
         }
 
         if (userRepository.existsByNickName(userDto.getNickName())) {
-            throw new UserAlreadyExistsException("Пользователь с таким логином уже существует");
+            throw new NickAlreadyExistsException("Пользователь с таким логином уже существует");
         }
 
         String avatarFileName = "noProfilePhoto.jpg";
         if (!avatar.isEmpty()) {
-            avatarFileName = fileUtil.saveUploadFile(userDto.getAvatar(), "avatars"); // твой метод
+            avatarFileName = fileUtil.saveUploadFile(userDto.getAvatar(), "avatars");
         }
 
         UserModel user = UserModel.builder()

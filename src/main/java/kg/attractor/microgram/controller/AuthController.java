@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/auth")
@@ -24,14 +25,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("userRegisterDto") UserDto userDto, BindingResult bindingResult, Model model) {
+    public String register(@Valid @ModelAttribute("userRegisterDto") UserDto userDto, BindingResult bindingResult, @RequestParam("avatar") MultipartFile avatar, Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userDto", userDto);
             return "auth/register";
         }
         try {
-            userService.registerUser(userDto);
+            userService.registerUser(userDto, avatar.getOriginalFilename());
             return "redirect:/auth/login";
         } catch (UserAlreadyExistsException e) {
             if (e.getMessage().contains("Логина")) {

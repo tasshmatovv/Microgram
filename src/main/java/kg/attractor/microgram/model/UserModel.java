@@ -30,7 +30,7 @@ public class UserModel {
 
     private Boolean enabled;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "accountTypeId")
     private AccountTypeModel accountType;
 

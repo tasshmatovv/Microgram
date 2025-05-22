@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void registerUser(UserDto userDto) {
+    public void registerUser(UserDto userDto, String avatar) {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new UserAlreadyExistsException("Пользователь с такой почтой уже существует");
         }
@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService {
         }
 
         String avatarFileName = "noProfilePhoto.jpg";
+        if (!avatar.isEmpty()) {
+            avatarFileName = fileUtil.saveUploadFile(userDto.getAvatar(), "avatars"); // твой метод
+        }
 
         UserModel user = UserModel.builder()
                 .nickName(userDto.getNickName())
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .accountType(accountTypeService.getUserAccountType())
                 .enabled(true)
-                .avatar(userDto.getAvatar())
+                .avatar(avatarFileName)
                 .build();
 
         userRepository.save(user);
@@ -64,6 +67,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto convertToDto(UserModel user) {
-        return modelMapper.map(user, UserDto.class);
+        UserDto dto = modelMapper.map(user, UserDto.class);
+        dto.setAvatarUrl(user.getAvatar());
+        return dto;
     }
+
 }

@@ -105,8 +105,7 @@
             </form>
 
             <div class="bottom-links">
-                <a href="/auth/register">Регистрация</a> |
-                <a href="/auth/forgotPassword">Забыли пароль?</a>
+              |  <a href="/auth/register">Регистрация</a> |
             </div>
         </div>
     </div>

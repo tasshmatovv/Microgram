@@ -169,8 +169,8 @@
                 </div>
                 <div class="profile-stats">
                     <div><span>${postCount}</span> публикаций</div>
-                    <div><span>4</span> подписчиков</div>
-                    <div><span>5</span> подписок</div>
+                    <div><span>${followerCount!0}</span> подписчиков</div>
+                    <div><span>${followedCount!0}</span> подписок</div>
                 </div>
                 <div class="profile-fullname">${user.fullName!""}</div>
                 <#if (user.bio!'')?trim != ''>

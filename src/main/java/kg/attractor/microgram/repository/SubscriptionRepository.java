@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SubscriptionRepository extends JpaRepository<SubscriptionModel, Integer> {
     @Query("SELECT s.followed.id FROM SubscriptionModel s WHERE s.follower.id = :userId")
     List<Integer> findFollowedUserIdsByFollowerId(Integer userId);
     boolean existsByFollowerIdAndFollowedId(Integer followerId, Integer followedId);
+    Optional<SubscriptionModel> findByFollowerIdAndFollowedId(Integer followerId, Integer followedId);
+    Integer countByFollower_Id(Integer followerId);
+    Integer countByFollowed_Id(Integer followedId);
+
 }

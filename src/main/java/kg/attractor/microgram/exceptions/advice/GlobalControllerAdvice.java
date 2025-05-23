@@ -176,4 +176,13 @@ public class GlobalControllerAdvice {
         return "errors/error";
     }
 
+    @ExceptionHandler(PostNotFoundException.class)
+    public String postNotFoundException(
+            HttpServletRequest request,
+            Model model) {
+        log.error("Пост не найден: {}", request.getRequestURI());
+        prepareErrorModel(model, HttpStatus.NOT_FOUND, request);
+        return "errors/error";
+    }
+
 }

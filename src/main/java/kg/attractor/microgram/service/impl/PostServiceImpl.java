@@ -3,6 +3,7 @@ package kg.attractor.microgram.service.impl;
 import kg.attractor.microgram.Util.FileUtil;
 import kg.attractor.microgram.dto.PostDto;
 import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.exceptions.PostNotFoundException;
 import kg.attractor.microgram.model.PostModel;
 import kg.attractor.microgram.model.UserModel;
 import kg.attractor.microgram.repository.PostRepository;
@@ -77,7 +78,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Integer postId) {
         PostModel postModel = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
 
         PostDto postDto = modelMapper.map(postModel, PostDto.class);
 

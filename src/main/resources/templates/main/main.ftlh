@@ -12,15 +12,13 @@
 
                     <div class="position-relative">
                         <img src="/profile/image/${post.imageUrlString}" class="img-fluid w-100">
-                        <div class="position-absolute bottom-0 start-0 p-3 w-100"
-                             style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                            <p class="mb-0 text-white" style="font-size: 0.9rem;">${post.description}</p>
-                        </div>
                     </div>
 
                     <div class="d-flex px-3 py-2">
                         <i class="bi bi-heart me-3 fs-5"></i>
-                        <i class="bi bi-chat fs-5"></i>
+                        <a href="/post/details/${post.id}" style="text-decoration: none; color: inherit;">
+                            <i class="bi bi-chat fs-5"></i>
+                        </a>
                     </div>
 
                     <div class="px-3 pb-3">

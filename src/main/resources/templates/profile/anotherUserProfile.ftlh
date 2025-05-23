@@ -9,7 +9,10 @@
 
                     <#if currentUser??>
                         <#if isFollowing>
-                            <button class="btn btn-secondary ms-3" disabled>Подписки</button>
+                            <form action="/subscriptions/unfollow/${user.id}" method="post" style="display: inline; margin-left: 12px;">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <button class="btn btn-secondary ms-3">Подписки</button>
+                            </form>
                         <#else>
                             <form action="/subscriptions/follow/${user.id}" method="post" style="display: inline; margin-left: 12px;">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" />

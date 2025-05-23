@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/profile", "post/create").authenticated()
+                        .requestMatchers("/profile", "post/create", "post/details/**").authenticated()
                         .requestMatchers("/auth/**","/static/**", "post/details/**").permitAll()
                         .requestMatchers("/", "/profile/avatars/**", "/profile/image/**").permitAll()
                         .anyRequest().authenticated()

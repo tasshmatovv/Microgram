@@ -19,10 +19,6 @@
                             <i class="bi bi-heart"></i>
                             <span class="likeCount">${post.likes}</span>
                         </button>
-                        <button class="btn btn-outline-light me-2">
-                            <i class="bi bi-chat"></i> ${post.comments}
-                        </button>
-                        <i class="bi bi-heart me-3 fs-5"></i>
                         <a href="/post/details/${post.id}" style="text-decoration: none; color: inherit;">
                             <i class="bi bi-chat fs-5"></i>
                         </a>

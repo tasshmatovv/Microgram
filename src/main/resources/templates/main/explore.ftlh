@@ -204,7 +204,7 @@
 
                 <#list post as p>
                     <div class="col-4">
-                        <a href="/post/${p.id}">
+                        <a href="/post/details/${p.id}">
                             <div class="position-relative">
                                 <img src="/profile/image/${p.imageUrlString}" class="img-fluid w-100"
                                      style="object-fit: cover; height: 150px;">

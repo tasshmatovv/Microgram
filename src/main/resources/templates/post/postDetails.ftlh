@@ -13,8 +13,9 @@
                 </div>
 
                 <div class="d-flex mb-3">
-                    <button class="btn btn-outline-light me-2">
-                        <i class="bi bi-heart"></i> ${post.likes}
+                    <button id="likeBtn" data-post-id="${post.id}" class="btn btn-outline-light me-2">
+                        <i class="bi bi-heart"></i>
+                        <span id="likeCount">${post.likes}</span>
                     </button>
                     <button class="btn btn-outline-light me-2">
                         <i class="bi bi-chat"></i> ${post.comments}
@@ -26,8 +27,8 @@
                 </div>
                </#if>
 
-                <div class="text-muted small mb-3">
-                    <i class="bi bi-clock"></i> ${post.createdAt}
+                <div class="small mb-3" style="color: #ffffff">
+                    <i class="bi bi-clock"></i> ${post.getFormattedUpdatedTime()}
                 </div>
 
                 <form action="/post/${post.id}/comment" method="post" class="mt-3">
@@ -48,7 +49,7 @@
 
                     <div class="comments-list mb-4">
                         <#if comments?size == 0>
-                            <p class="text-muted">Пока нет комментариев</p>
+                            <p style="color: #ffffff">Пока нет комментариев</p>
                         <#else>
                             <#list comments as comment>
                                 <div class="comment-item mb-3">
@@ -102,4 +103,50 @@
             overflow-y: auto;
         }
     </style>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const likeBtn = document.getElementById("likeBtn");
+            const likeCountSpan = document.getElementById("likeCount");
+            const postId = likeBtn.getAttribute("data-post-id");
+
+            fetch(`/api/like/status/${post.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    likeCountSpan.textContent = data.likesCount;
+                    const icon = likeBtn.querySelector("i");
+                    if (data.liked) {
+                        likeBtn.classList.add("liked");
+                        icon.className = "bi bi-heart-fill";
+                    } else {
+                        likeBtn.classList.remove("liked");
+                        icon.className = "bi bi-heart";
+                    }
+                });
+
+            likeBtn.addEventListener("click", () => {
+                fetch(`/api/like/${post.id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRF-TOKEN": '${_csrf.token}'
+                    },
+                    body: ""
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        likeCountSpan.textContent = data.likesCount;
+                        const icon = likeBtn.querySelector("i");
+                        if (data.liked) {
+                            likeBtn.classList.add("liked");
+                            icon.className = "bi bi-heart-fill";
+                        } else {
+                            likeBtn.classList.remove("liked");
+                            icon.className = "bi bi-heart";
+                        }
+                    });
+            });
+        });
+    </script>
 </@main.layout>

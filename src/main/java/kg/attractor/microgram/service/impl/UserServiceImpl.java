@@ -1,6 +1,7 @@
 package kg.attractor.microgram.service.impl;
 
 import kg.attractor.microgram.Util.FileUtil;
+import kg.attractor.microgram.dto.EditProfileDto;
 import kg.attractor.microgram.dto.UserDto;
 import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
 import kg.attractor.microgram.exceptions.NickAlreadyExistsException;
@@ -139,9 +140,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void editUser(UserDto userDto, Integer userId) {
+    public void editUser(EditProfileDto userDto, Integer userId) {
         UserModel user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if (userRepository.existsByNickNameAndIdNot(userDto.getNickName(), userId)) {
+            throw new NickAlreadyExistsException("Пользователь с таким логином уже существует");
+        }
+
 
         user.setNickName(userDto.getNickName());
         user.setFullName(userDto.getFullName());
@@ -149,4 +155,16 @@ public class UserServiceImpl implements UserService {
 
         userRepository.saveAndFlush(user);
     }
+
+
+    @Override
+    public EditProfileDto getEditProfileDtoByEmail(String email) {
+        UserDto user = getUserByEmail(email);
+        return EditProfileDto.builder()
+                .nickName(user.getNickName())
+                .fullName(user.getFullName())
+                .bio(user.getBio())
+                .build();
+    }
+
 }

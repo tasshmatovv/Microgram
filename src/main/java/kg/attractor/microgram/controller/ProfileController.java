@@ -2,6 +2,7 @@ package kg.attractor.microgram.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.microgram.Util.FileUtil;
+import kg.attractor.microgram.dto.EditProfileDto;
 import kg.attractor.microgram.dto.PostDto;
 import kg.attractor.microgram.dto.UserDto;
 import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
@@ -98,13 +99,14 @@ public class ProfileController {
 
     @GetMapping("/edit")
     public String editUserProfile(Model model, Principal principal) {
-        model.addAttribute("userDto", userService.getUserByEmail(principal.getName()));
+        EditProfileDto dto = userService.getEditProfileDtoByEmail(principal.getName());
+        model.addAttribute("userDto", dto);
         return "profile/edit";
     }
 
     @PostMapping("/edit")
     public String editUserProfile(
-            UserDto userDto,
+            @Valid EditProfileDto userDto,
             BindingResult bindingResult, Model model,
             Principal principal) {
 
@@ -115,7 +117,14 @@ public class ProfileController {
             model.addAttribute("userDto", userDto);
             return "profile/edit";
         }
-        userService.editUser(userDto, profileUser.getId());
-        return "redirect:/profile";
+        try {
+            userService.editUser(userDto, profileUser.getId());
+            return "redirect:/profile";
+        } catch (NickAlreadyExistsException e) {
+            model.addAttribute("userDto", userDto);
+            model.addAttribute("nickError", e.getMessage());
+            return "profile/edit";
+        }
+
     }
 }

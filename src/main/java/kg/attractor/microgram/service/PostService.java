@@ -1,6 +1,7 @@
 package kg.attractor.microgram.service;
 
 import kg.attractor.microgram.dto.PostDto;
+import kg.attractor.microgram.model.PostModel;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ public interface PostService {
     ResponseEntity<InputStreamResource> getPostImage(String postImage);
 
     PostDto getPostById(Integer postId);
+
+    PostModel getPostModelById(Integer postId);
 
     void updateCommentCount(Integer postId);
 

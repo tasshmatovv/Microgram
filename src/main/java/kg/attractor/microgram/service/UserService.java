@@ -1,6 +1,7 @@
 package kg.attractor.microgram.service;
 
 import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.model.UserModel;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface UserService {
     String addAvatar(MultipartFile file);
 
     List<UserDto> findUserByNickNameOrName(String query);
+
+    UserModel findById(Integer userId);
 }

@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/profile", "post/create", "post/details/**").authenticated()
                         .requestMatchers("/auth/**","/static/**", "post/details/**").permitAll()
                         .requestMatchers("/", "/profile/avatars/**", "/profile/image/**").permitAll()
+                        .requestMatchers("/search").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

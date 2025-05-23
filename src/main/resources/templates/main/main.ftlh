@@ -15,6 +15,13 @@
                     </div>
 
                     <div class="d-flex px-3 py-2">
+                        <button data-post-id="${post.id}" class="btn btn-outline-light me-2 likeBtn">
+                            <i class="bi bi-heart"></i>
+                            <span class="likeCount">${post.likes}</span>
+                        </button>
+                        <button class="btn btn-outline-light me-2">
+                            <i class="bi bi-chat"></i> ${post.comments}
+                        </button>
                         <i class="bi bi-heart me-3 fs-5"></i>
                         <a href="/post/details/${post.id}" style="text-decoration: none; color: inherit;">
                             <i class="bi bi-chat fs-5"></i>
@@ -49,5 +56,55 @@
         </#if>
 
     </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const likeButtons = document.querySelectorAll(".likeBtn");
+
+            likeButtons.forEach(likeBtn => {
+                const likeCountSpan = likeBtn.querySelector(".likeCount");
+                const postId = likeBtn.getAttribute("data-post-id");
+
+                fetch(`/api/like/status/` + postId)
+                    .then(response => response.json())
+                    .then(data => {
+                        likeCountSpan.textContent = data.likesCount;
+                        const icon = likeBtn.querySelector("i");
+                        if (data.liked) {
+                            likeBtn.classList.add("liked");
+                            icon.className = "bi bi-heart-fill";
+                        } else {
+                            likeBtn.classList.remove("liked");
+                            icon.className = "bi bi-heart";
+                        }
+                    });
+
+                likeBtn.addEventListener("click", () => {
+                    fetch(`/api/like/` + postId, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRF-TOKEN": '${_csrf.token}'
+                        },
+                        body: ""
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            likeCountSpan.textContent = data.likesCount;
+                            const icon = likeBtn.querySelector("i");
+                            if (data.liked) {
+                                likeBtn.classList.add("liked");
+                                icon.className = "bi bi-heart-fill";
+                            } else {
+                                likeBtn.classList.remove("liked");
+                                icon.className = "bi bi-heart";
+                            }
+                        });
+                });
+            });
+        });
+
+    </script>
 
 </@main.layout>

@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
                         .description(postModel.getDescription())
                         .likes(postModel.getLikes())
                         .comments(postModel.getComments())
-                        .createdAt(postModel.getCreatedAt().toString())
+                        .createdAt(postModel.getCreatedAt())
                         .build())
                 .toList();
     }
@@ -92,6 +92,13 @@ public class PostServiceImpl implements PostService {
         return postDto;
     }
 
+
+    @Override
+    public PostModel getPostModelById(Integer postId) {
+        return postRepository.findById(postId).
+                orElseThrow(() -> new RuntimeException("Post not found"));
+    }
+
     @Override
     public void updateCommentCount(Integer postId) {
         PostModel post = postRepository.findById(postId)
@@ -112,7 +119,6 @@ public class PostServiceImpl implements PostService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-
 
     private PostDto convertToDto(PostModel postModel) {
         return modelMapper.map(postModel, PostDto.class);

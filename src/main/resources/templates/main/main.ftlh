@@ -20,12 +20,11 @@
                             <span class="likeCount">${post.likes}</span>
                         </button>
                         <button class="btn btn-outline-light me-2">
-                            <i class="bi bi-chat"></i> ${post.comments}
+                            <a href="/post/details/${post.id}" style="text-decoration: none; color: inherit;">
+                                <i class="bi bi-chat fs-5"></i>
+                            </a>
                         </button>
-                        <i class="bi bi-heart me-3 fs-5"></i>
-                        <a href="/post/details/${post.id}" style="text-decoration: none; color: inherit;">
-                            <i class="bi bi-chat fs-5"></i>
-                        </a>
+
                     </div>
 
                     <div class="px-3 pb-3">
@@ -44,7 +43,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <div class="d-flex align-items-center">
                             <img src="/profile/avatars/${user.avatarUrl}" class="rounded-circle me-2" width="40" height="40">
-                            <span>${user.nickName}</span>
+                            <h5><a href="/profile/${user.id}" class="text-decoration-none text-white">${user.nickName}</a></h5>
                         </div>
                         <form action="/subscriptions/follow/${user.id}" method="post">
                             <input type="hidden" name="_csrf" value="${_csrf.token}">

@@ -5,7 +5,7 @@
             <div class="col-md-8">
                 <div class="d-flex align-items-center mb-3">
                     <img src="/profile/avatars/${post.user.avatarUrl}" class="rounded-circle me-3" width="40" height="40" alt="User Avatar">
-                    <a href="/profile/${post.user.id}" style="text-decoration: none; color: inherit;">
+                    <a href="/profile/info/${post.user.id}" style="text-decoration: none; color: inherit;">
                         <h5 class="mb-0">${post.user.nickName}</h5>
                     </a>
                 </div>

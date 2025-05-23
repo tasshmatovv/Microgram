@@ -6,14 +6,14 @@
             font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
-            color: #fff; /* В Инсте светлый текст */
-            background: #000; /* Почти чёрный фон */
+            color: #fff;
+            background: #000;
         }
 
         .search-container {
             text-align: center;
             margin: 2rem 0;
-            position: relative; /* Для абсолютного позиционирования результатов */
+            position: relative;
             z-index: 1100;
         }
 
@@ -94,7 +94,7 @@
         }
 
         .search-result-item:hover .result-avatar {
-            border-color: #0095f6; /* Синий акцент, как в Инсте */
+            border-color: #0095f6;
         }
 
         .result-text {
@@ -276,8 +276,8 @@
                 let resultsHtml = '';
                 users.forEach(user => {
                     resultsHtml +=
-                        '<div class="search-result-item" onclick="window.location.href=\'/profile/info/' + user.id + '\'">' +
-                        '<img src="/profile/image/' + user.avatarUrl + '" alt="avatar" class="result-avatar">' +
+                        '<div class="search-result-item" onclick="window.location.href=\'/profile/' + user.id + '\'">' +
+                        '<img src="/profile/avatars/' + user.avatarUrl + '" alt="avatar" class="result-avatar">' +
                         '<div class="result-text">' +
                         '<div class="result-username">' + user.fullName + '</div>' +
                         '<div class="result-displayname">' + user.nickName + '</div>' +

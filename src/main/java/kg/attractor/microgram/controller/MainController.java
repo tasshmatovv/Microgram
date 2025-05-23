@@ -2,6 +2,7 @@ package kg.attractor.microgram.controller;
 
 import kg.attractor.microgram.dto.PostDto;
 import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.service.PostService;
 import kg.attractor.microgram.service.SubscriptionsService;
 import kg.attractor.microgram.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class MainController {
 
     private final UserService userService;
     private final SubscriptionsService subscriptionsService;
+    private final PostService postService;
 
     @GetMapping("/")
     public String homePage(Model model, Authentication authentication) {
@@ -42,6 +44,14 @@ public class MainController {
         }
 
         return "main/main";
+    }
+
+
+    @GetMapping("search")
+    public String showExplorePage(Model model) {
+        model.addAttribute("post", postService.getAllPosts());
+
+        return "main/explore";
     }
 
 }

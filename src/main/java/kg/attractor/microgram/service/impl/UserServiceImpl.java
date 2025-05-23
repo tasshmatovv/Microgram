@@ -130,4 +130,10 @@ public class UserServiceImpl implements UserService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public UserModel findById(Integer userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
 }

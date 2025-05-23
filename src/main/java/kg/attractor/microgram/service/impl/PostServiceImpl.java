@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -103,4 +104,17 @@ public class PostServiceImpl implements PostService {
         return modelMapper.map(userDto, UserModel.class);
     }
 
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<PostModel> post = postRepository.findAll();
+        return post.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    private PostDto convertToDto(PostModel postModel) {
+        return modelMapper.map(postModel, PostDto.class);
+    }
 }

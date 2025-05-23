@@ -19,4 +19,6 @@ public interface PostService {
     PostDto getPostById(Integer postId);
 
     void updateCommentCount(Integer postId);
+
+    List<PostDto> getAllPosts();
 }

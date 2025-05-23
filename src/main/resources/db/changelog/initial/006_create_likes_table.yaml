@@ -7,6 +7,13 @@ databaseChangeLog:
             tableName: likes
             columns:
               - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
                   name: user_id
                   type: BIGINT
                   constraints:

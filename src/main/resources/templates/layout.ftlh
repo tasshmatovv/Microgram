@@ -55,7 +55,9 @@
             <a href="/search"><i class="bi bi-search"></i> Интересное</a>
             <a href="/logout" class="btn btn-outline-light">Выйти</a>
         <#else>
+            <a href="/search"><i class="bi bi-search"></i> Интересное</a>
             <a href="/auth/login" class="btn btn-outline-light">Войти</a>
+
         </#if>
     </div>
 

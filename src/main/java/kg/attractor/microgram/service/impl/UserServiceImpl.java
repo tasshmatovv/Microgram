@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @__(@Lazy))
@@ -120,4 +121,13 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 
+
+    @Override
+    public List<UserDto> findUserByNickNameOrName(String query) {
+        List<UserModel> userModels = userRepository.findUserByNameOrNickName(query);
+
+        return userModels.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 }

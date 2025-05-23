@@ -20,4 +20,6 @@ public interface UserService {
     void updateUserAvatar(String email, MultipartFile avatar, String existingAvatar);
 
     String addAvatar(MultipartFile file);
+
+    List<UserDto> findUserByNickNameOrName(String query);
 }

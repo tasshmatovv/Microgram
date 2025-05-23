@@ -276,7 +276,7 @@
                 let resultsHtml = '';
                 users.forEach(user => {
                     resultsHtml +=
-                        '<div class="search-result-item" onclick="window.location.href=\'/profile/' + user.id + '\'">' +
+                        '<div class="search-result-item" onclick="window.location.href=\'/profile/info' + user.id + '\'">' +
                         '<img src="/profile/avatars/' + user.avatarUrl + '" alt="avatar" class="result-avatar">' +
                         '<div class="result-text">' +
                         '<div class="result-username">' + user.fullName + '</div>' +

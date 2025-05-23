@@ -7,7 +7,7 @@
                 <div class="card mb-4 bg-black text-white border-0">
                     <div class="d-flex align-items-center px-3 py-2">
                         <img src="/profile/avatars/${post.user.avatarUrl}" class="rounded-circle me-2" width="32" height="32">
-                        <h5><a href="/profile/${post.user.id}" class="text-decoration-none text-white">${post.user.nickName}</a></h5>
+                        <h5><a href="/profile/info/${post.user.id}" class="text-decoration-none text-white">${post.user.nickName}</a></h5>
                     </div>
 
                     <div class="position-relative">

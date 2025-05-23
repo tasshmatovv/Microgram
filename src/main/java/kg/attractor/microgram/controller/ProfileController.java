@@ -64,7 +64,7 @@ public class ProfileController {
         return postService.getPostImage(postImage);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     public String getUserProfile(@PathVariable Integer id, Model model, Authentication authentication) {
         UserDto profileUser = userService.getUserById(id);
         model.addAttribute("user", profileUser);

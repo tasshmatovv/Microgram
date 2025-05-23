@@ -52,6 +52,7 @@
             <#assign roles = SPRING_SECURITY_CONTEXT.authentication.authorities?map(it -> it.authority)>
             <a href="/profile"><i class="bi bi-person-circle"></i> Профиль</a>
             <a href="/post/create"><i class="bi bi-plus-square"></i> Создать</a>
+            <a href="/search"><i class="bi bi-search"></i> Интересное</a>
             <a href="/logout" class="btn btn-outline-light">Выйти</a>
         <#else>
             <a href="/auth/login" class="btn btn-outline-light">Войти</a>

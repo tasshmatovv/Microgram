@@ -1,8 +1,12 @@
 package kg.attractor.microgram.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.microgram.Util.FileUtil;
+import kg.attractor.microgram.dto.EditProfileDto;
 import kg.attractor.microgram.dto.PostDto;
 import kg.attractor.microgram.dto.UserDto;
+import kg.attractor.microgram.exceptions.EmailAlreadyExistsException;
+import kg.attractor.microgram.exceptions.NickAlreadyExistsException;
 import kg.attractor.microgram.service.PostService;
 import kg.attractor.microgram.service.UserService;
 import kg.attractor.microgram.service.impl.SubscriptionsServiceImpl;
@@ -13,9 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -90,4 +96,35 @@ public class ProfileController {
         return "profile/anotherUserProfile";
     }
 
+
+    @GetMapping("/edit")
+    public String editUserProfile(Model model, Principal principal) {
+        EditProfileDto dto = userService.getEditProfileDtoByEmail(principal.getName());
+        model.addAttribute("userDto", dto);
+        return "profile/edit";
+    }
+
+    @PostMapping("/edit")
+    public String editUserProfile(
+            @Valid EditProfileDto userDto,
+            BindingResult bindingResult, Model model,
+            Principal principal) {
+
+
+        UserDto profileUser = userService.getUserByEmail(principal.getName());
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userDto", userDto);
+            return "profile/edit";
+        }
+        try {
+            userService.editUser(userDto, profileUser.getId());
+            return "redirect:/profile";
+        } catch (NickAlreadyExistsException e) {
+            model.addAttribute("userDto", userDto);
+            model.addAttribute("nickError", e.getMessage());
+            return "profile/edit";
+        }
+
+    }
 }

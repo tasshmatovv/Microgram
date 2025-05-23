@@ -165,7 +165,7 @@
             <div class="profile-info">
                 <div class="top-row">
                     <h2>${user.nickName!"Имя"}</h2>
-                    <a href="/profile/redactProfile" class="btn btn-custom">Редактировать профиль</a>
+                    <a href="/profile/edit" class="btn btn-custom">Редактировать профиль</a>
                 </div>
                 <div class="profile-stats">
                     <div><span>${postCount}</span> публикаций</div>

@@ -25,4 +25,8 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
             "LOWER(u.email) like LOWER(CONCAT('%', :query, '%'))", nativeQuery = true)
     List<UserModel> findUserByNameOrNickName(@Param("query") String query);
 
+
+    boolean existsByNickNameAndIdNot(String nickName, Integer id);
+
+
 }

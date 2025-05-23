@@ -1,5 +1,6 @@
 package kg.attractor.microgram.service;
 
+import kg.attractor.microgram.dto.EditProfileDto;
 import kg.attractor.microgram.dto.UserDto;
 import kg.attractor.microgram.model.UserModel;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,4 +26,8 @@ public interface UserService {
     List<UserDto> findUserByNickNameOrName(String query);
 
     UserModel findById(Integer userId);
+
+    void editUser(EditProfileDto userDto, Integer userId);
+
+    EditProfileDto getEditProfileDtoByEmail(String email);
 }

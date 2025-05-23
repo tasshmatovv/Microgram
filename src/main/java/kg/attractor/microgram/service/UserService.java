@@ -25,4 +25,6 @@ public interface UserService {
     List<UserDto> findUserByNickNameOrName(String query);
 
     UserModel findById(Integer userId);
+
+    void editUser(UserDto userDto, Integer userId);
 }

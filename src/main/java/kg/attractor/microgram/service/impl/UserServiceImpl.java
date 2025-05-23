@@ -136,4 +136,17 @@ public class UserServiceImpl implements UserService {
     public UserModel findById(Integer userId) {
         return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
+
+
+    @Override
+    public void editUser(UserDto userDto, Integer userId) {
+        UserModel user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        user.setNickName(userDto.getNickName());
+        user.setFullName(userDto.getFullName());
+        user.setBio(userDto.getBio());
+
+        userRepository.saveAndFlush(user);
+    }
 }

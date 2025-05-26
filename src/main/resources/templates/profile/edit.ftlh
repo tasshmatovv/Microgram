@@ -10,6 +10,7 @@
                 <label for="nickName">Ник</label>
                 <@spring.formInput "userDto.nickName" 'class="form-control" id="nickName"' />
                 <div class="text-danger">
+
                     <@spring.showErrors "nickName" "<br>" />
                 </div>
                 <#if nickError??>
